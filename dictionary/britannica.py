@@ -126,6 +126,8 @@ def get_parts(word):
         return None
 
     entries = soup.find_all('div', class_='hw_d')
+    if not entries:
+        return None
 
     parts_of_speech = []
 
@@ -176,14 +178,3 @@ def get_definitions(word):
                         definitions_with_examples.append({'meaning': meaning, 'examples':[]})
 
     return definitions_with_examples
-
-
-
-# Call the get_definitions function to retrieve definitions and examples
-definitions = get_definitions('Ethiopia')
-
-for definition in definitions:
-    print(definition['meaning'])
-    for example in definition['examples']:
-        print(f"Example: {example}")
-    print()
