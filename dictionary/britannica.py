@@ -108,3 +108,82 @@ def get_word_of_the_day():
 
 
     return word_info
+
+
+def get_parts(word):
+    '''
+    Get the parts of speech for a given word from the Britannica Dictionary.
+
+    Args:
+        word (str): The word to fetch parts of speech for.
+
+    Returns:
+        list: List of strings, with each string containing the headword and its part of speech.
+    '''
+    url = f"{DOMAIN}/dictionary/{word}"
+    soup = get_soup(url)
+    if not soup:
+        return None
+
+    entries = soup.find_all('div', class_='hw_d')
+
+    parts_of_speech = []
+
+    for entry in entries:
+        headword = entry.find('span', class_='hw_txt').get_text(strip=True)
+        part_of_speech = entry.find('span', class_='fl').get_text(strip=True)
+
+        parts_of_speech.append(f"{headword} ({part_of_speech})")
+
+    return parts_of_speech
+
+
+def get_definitions(word):
+    '''
+    Extracts the definitions and examples from the Britannica Dictionary for a given word.
+
+    Args:
+        word (str): The word to fetch definitions for.
+
+    Returns:
+        list: List of dictionaries, where each dictionary contains a meaning and its examples.
+              Returns None if no definitions are found or if sense/examples are not found.
+    '''
+    url = f"{DOMAIN}/dictionary/{word}"
+    soup = get_soup(url)
+    if not soup:
+        return None
+
+    sblocks = soup.find_all('div', class_='sblocks')
+    definitions_with_examples = []
+
+    for sblock in sblocks:
+        definition_blocks = sblock.find_all('div', class_='sblock_c')
+        for block in definition_blocks:
+            sense = block.find_all('div', class_='sense')
+            for s in sense: 
+                definitions = s.find_all('span', class_='def_text')
+                examples = s.find_all('li', class_='vi')
+                
+                if definitions and examples:
+                    for definition, example in zip(definitions, examples):
+                        meaning = definition.get_text(strip=True)
+                        example_list = [example.get_text(strip=True) for example in examples]
+                        definitions_with_examples.append({'meaning': meaning, 'examples': example_list})
+                elif definitions:
+                    for definition in definitions:
+                        meaning = definition.get_text(strip=True)
+                        definitions_with_examples.append({'meaning': meaning, 'examples':[]})
+
+    return definitions_with_examples
+
+
+
+# Call the get_definitions function to retrieve definitions and examples
+definitions = get_definitions('Ethiopia')
+
+for definition in definitions:
+    print(definition['meaning'])
+    for example in definition['examples']:
+        print(f"Example: {example}")
+    print()
