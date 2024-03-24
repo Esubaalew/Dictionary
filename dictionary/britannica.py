@@ -9,18 +9,17 @@ from bs4 import BeautifulSoup
 
 DOMAIN = 'https://www.britannica.com'
 
-def get_soup(word):
+def get_soup(url):
     '''
     Get BeautifulSoup object for a URL
 
     Args:
-        word (str): Word to search for
+        url (str): URL to fetch and parse
 
     Returns:
         BeautifulSoup: BeautifulSoup object for the URL, or None if unable to retrieve
     '''
     try:
-        url = f'https://www.britannica.com/dictionary/{word}'
         response = requests.get(url)
         response.raise_for_status()  # Raise an exception for bad status codes
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -31,7 +30,7 @@ def get_soup(word):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-
+    
 def get_entries(word):
     '''
     Get related entries for a word in Britannica Dictionary
@@ -42,7 +41,10 @@ def get_entries(word):
     Returns:
         list: List of dictionaries containing the text and link of each entry, or an empty list if no entries are found
     '''
-    soup = get_soup(word)
+    url = f"{DOMAIN}/dictionary/{word}"
+    soup = get_soup(url)
+    if not soup:
+        return []
     entries = soup.find('ul', class_='o_list')
 
     if entries:
@@ -61,3 +63,6 @@ def get_total_entries(word):
         int: Total number of entries for the word
     '''
     return len(get_entries(word))
+
+
+print(get_entries('apple'))
