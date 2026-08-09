@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dictionary"
+version = "0.1.2"
+description = "A Python package for querying both the Britannica and Abyssinica dictionaries"
+readme = "README.md"
+authors = [{name = "Dictionary Package"}]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.6"
+dependencies = [
+    "beautifulsoup4>=4.12.3",
+    "requests>=2.31.0",
+    "bs4>=0.0.2",
+]
+
