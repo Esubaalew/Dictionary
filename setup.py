@@ -4,13 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="dictionary",
+    name="britannica-dictionary",
     version="0.1.2",
-    author="Dictionary Package",
+    author="Esubalew Chekol",
+    author_email="hi@esubalew.et",
     description="A Python package for querying both the Britannica and Abyssinica dictionaries",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/Dictionary",
+    url="https://github.com/Esubaalew/Dictionary",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

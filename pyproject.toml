@@ -3,11 +3,11 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "dictionary"
+name = "britannica-dictionary"
 version = "0.1.2"
 description = "A Python package for querying both the Britannica and Abyssinica dictionaries"
 readme = "README.md"
-authors = [{name = "Dictionary Package"}]
+authors = [{name = "Esubalew Chekol", email = "hi@esubalew.et"}]
 license = {text = "MIT"}
 classifiers = [
     "Programming Language :: Python :: 3",
